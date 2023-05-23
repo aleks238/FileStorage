@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
+            prefWidth="650.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.fileStorage.frontend.UI.RegistrationPageController">
+    <top>
+        <HBox alignment="CENTER" prefHeight="34.0" prefWidth="500.0" BorderPane.alignment="CENTER"/>
+    </top>
+    <center>
+        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="TOP_LEFT">
+            <Label prefHeight="25.0" prefWidth="300.0" text="Email или имя пользователя">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="15.0"/>
+                </VBox.margin>
+            </Label>
+            <TextField fx:id="usernameTextField" maxWidth="-Infinity" prefHeight="25.0" prefWidth="300.0"
+                       promptText="E-mail или имя пользователя">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </TextField>
+            <Label prefHeight="25.0" prefWidth="300.0" text="Пароль">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="15.0"/>
+                </VBox.margin>
+            </Label>
+            <TextField fx:id="passwordTextField" maxWidth="-Infinity" prefHeight="25.0" prefWidth="300.0"
+                       promptText="Пароль">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </TextField>
+            <Label prefHeight="25.0" prefWidth="300.0" text="Повторите пароль">
+                <VBox.margin>
+                    <Insets top="15.0"/>
+                </VBox.margin>
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+            </Label>
+            <TextField fx:id="repeatPasswordTextField" maxWidth="-Infinity" prefHeight="25.0" prefWidth="300.0"
+                       promptText="Повторите пароль">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </TextField>
+            <Label fx:id="signInLabel" prefHeight="50.0" prefWidth="300.0">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="5.0" top="5.0"/>
+                </VBox.margin>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#performRegistration" prefHeight="40.0"
+                    prefWidth="300.0" style="-fx-background-color: #0f9d58;" text="Зарегистрироваться" textFill="WHITE">
+                <font>
+                    <Font name="Calibri Bold" size="18.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="5.0" top="5.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#clearButtonMethod" prefHeight="40.0"
+                    prefWidth="300.0" style="-fx-background-color: #0f9d58;" text="Очистить" textFill="WHITE">
+                <font>
+                    <Font name="Calibri Bold" size="18.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Hyperlink onAction="#goToLoginPage" text="Вернуться на станицу авторизации"
+                       textFill="#123fb3">
+                <VBox.margin>
+                    <Insets right="50.0"/>
+                </VBox.margin>
+                <font>
+                    <Font name="Arial" size="14.0"/>
+                </font>
+            </Hyperlink>
+        </VBox>
+    </center>
+</BorderPane>
