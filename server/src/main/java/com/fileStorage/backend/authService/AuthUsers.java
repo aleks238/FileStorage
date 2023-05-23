@@ -1,4 +1,4 @@
-package com.fileStorage.backend.databaseService;
+package com.fileStorage.backend.authService;
 
 import com.fileStorage.backend.constants.Constants;
 import lombok.extern.slf4j.Slf4j;

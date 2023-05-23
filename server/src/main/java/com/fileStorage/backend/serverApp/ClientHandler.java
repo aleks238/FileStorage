@@ -1,7 +1,7 @@
 package com.fileStorage.backend.serverApp;
 
 import com.fileStorage.backend.constants.Constants;
-import com.fileStorage.backend.databaseService.AuthUsers;
+import com.fileStorage.backend.authService.AuthUsers;
 import com.fileStorage.common.ByteObject;
 import com.fileStorage.common.StringCommand;
 import io.netty.channel.ChannelHandlerContext;

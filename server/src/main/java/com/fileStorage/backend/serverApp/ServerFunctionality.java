@@ -17,11 +17,18 @@ import java.util.stream.Stream;
 @Slf4j
 public class ServerFunctionality {
     private final String storagePath = "server/users/";
+    private final Object[] locks;
     private final static int space = 1;
 
+    public ServerFunctionality() {
+        locks = new Object[12];
+        for (int i = 0; i < locks.length; i++) {
+            locks[i] = new Object();
+        }
+    }
 
     void displayFolderContent(ChannelHandlerContext channel, String str) throws IOException {
-        synchronized (new Object()) {
+        synchronized (locks[0]) {
             String folderPath = storagePath + str.substring(Constants.DISPLAY_FOLDER_CONTENT.length() + space);
             try (Stream<Path> stream = Files.list(Paths.get(folderPath))) {
                 String[] folderContent = stream.map(Path::getFileName)
@@ -33,7 +40,7 @@ public class ServerFunctionality {
     }
 
     void performDownload(ChannelHandlerContext channel, String str, String username) throws IOException {
-        synchronized (new Object()) {
+        synchronized (locks[1]) {
             String filePath = str.substring(Constants.DOWNLOAD_COMMAND.length() + space);
             Path filePathOnServer = Paths.get(storagePath + filePath);
             String fileName = filePathOnServer.getFileName().toString();
@@ -46,7 +53,7 @@ public class ServerFunctionality {
     }
 
     void sendDirectory(ChannelHandlerContext channel, Path source, String username) throws IOException {
-        synchronized (new Object()) {
+        synchronized (locks[2]) {
             Path serverDirectories = Paths.get(storagePath + username);
             if (Files.isDirectory(source)) {
                 Path directoryRelativePath = serverDirectories.relativize(source);
@@ -63,7 +70,7 @@ public class ServerFunctionality {
     }
 
     void recursiveSendDirectory(ChannelHandlerContext channel, Path source, String username) {
-        synchronized (new Object()) {
+        synchronized (locks[3]) {
             try {
                 sendDirectory(channel, source, username);
             } catch (IOException e) {
@@ -73,7 +80,7 @@ public class ServerFunctionality {
     }
 
     void sendFileSegments(ChannelHandlerContext channel, Path filePathOnServer, String fileName) throws IOException {
-        synchronized (new Object()) {
+        synchronized (locks[4]) {
             byte[] buffer = new byte[1024];
             int read;
             long position = 0;
@@ -89,7 +96,7 @@ public class ServerFunctionality {
     }
 
     void downloadFileFromFiles(ChannelHandlerContext channel, String userName, String str) throws IOException {
-        synchronized (new Object()) {
+        synchronized (locks[5]) {
             String fileName = str.substring(Constants.DOWNLOAD_FILE_FROM_FILES.length() + space);
             try (Stream<Path> stream = Files.walk(Paths.get(storagePath + userName))) {
                 Path path = stream.filter(file -> file.getFileName().toString().equals(fileName))
@@ -104,7 +111,7 @@ public class ServerFunctionality {
     }
 
     void performListFiles(ChannelHandlerContext channel, String userName) throws IOException {
-        synchronized (new Object()) {
+        synchronized (locks[6]) {
             Path path = Paths.get(storagePath + userName);
             try (Stream<Path> stream = Files.walk(path)) {
                 String[] filesArray = stream.filter(file -> !Files.isDirectory(file))
@@ -118,7 +125,7 @@ public class ServerFunctionality {
     }
 
     void performDelete(ChannelHandlerContext channel, String userName, String str) throws IOException {
-        synchronized (new Object()) {
+        synchronized (locks[7]) {
             String fileName = str.substring(Constants.DELETE_COMMAND.length() + space);
             Path filePath;
             try (Stream<Path> stream = Files.list(Paths.get(storagePath + userName))) {
@@ -143,7 +150,7 @@ public class ServerFunctionality {
     }
 
     void sendStorageContent(ChannelHandlerContext channel, String userName) {
-        synchronized (new Object()) {
+        synchronized (locks[8]) {
             File clientDirectory = new File(storagePath + userName);
             String[] clientContent = clientDirectory.list();
             channel.writeAndFlush(new StorageList(clientContent));
@@ -152,7 +159,7 @@ public class ServerFunctionality {
 
     void storeFileSegment(ChannelHandlerContext channel, String userName, ByteObject object) throws
             IOException {
-        synchronized (new Object()) {
+        synchronized (locks[9]) {
             FileSegment file = (FileSegment) object;
             int read = file.getRead();
             long position = file.getPosition();
@@ -170,7 +177,7 @@ public class ServerFunctionality {
     }
 
     void createEmptyFile(ChannelHandlerContext channel, String userName, ByteObject object) throws IOException {
-        synchronized (new Object()) {
+        synchronized (locks[10]) {
             CreateEmptyFile emptyFile = (CreateEmptyFile) object;
             String filePath = emptyFile.getFilePath();
             Path filePathOnServer = Paths.get(storagePath + userName + "/" + filePath);
@@ -183,7 +190,7 @@ public class ServerFunctionality {
     }
 
     void storeDirectory(ChannelHandlerContext channel, String userName, ByteObject object) throws NoSuchFieldException, IllegalAccessException, IOException {
-        synchronized (new Object()) {
+        synchronized (locks[11]) {
             Directory directoryObject = (Directory) object;
             String relativePath = directoryObject.getRelativePath();
             Path foldersPath = Paths.get(storagePath + userName + "/" + relativePath);

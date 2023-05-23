@@ -1,4 +1,4 @@
-package com.fileStorage.backend.databaseService;
+package com.fileStorage.backend.authService;
 import java.sql.SQLException;
 
 public interface AuthService {

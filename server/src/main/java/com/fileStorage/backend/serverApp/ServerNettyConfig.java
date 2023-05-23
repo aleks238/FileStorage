@@ -1,6 +1,6 @@
 package com.fileStorage.backend.serverApp;
 
-import com.fileStorage.backend.databaseService.AuthUsers;
+import com.fileStorage.backend.authService.AuthUsers;
 import com.fileStorage.backend.constants.Constants;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
